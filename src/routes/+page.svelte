@@ -20,7 +20,7 @@
 
 </script>
 <h1>Kullanıcı Ekleme</h1>
-<Form.Root method="POST" {form} schema={_userSchema} let:config>
+<Form.Root  {form} schema={_userSchema}  let:config>
   <Form.Field {config} name="name">
     <Form.Item>
       <Form.Label>Name</Form.Label>  
