@@ -1,8 +1,8 @@
 <script lang="ts">
 	import { setMessage, superForm, superValidateSync } from 'sveltekit-superforms/client';
 	import { _userSchema } from '$lib/db';
-
-	const { form, errors, constraints, enhance , message} = superForm(superValidateSync(_userSchema), {
+	import * as Form from "$lib/components/ui/form";
+	export let form = superForm(superValidateSync(_userSchema), {
 		SPA: true,
 		validators: _userSchema,
 		onUpdate({ form }) {
@@ -12,39 +12,32 @@
 				console.log(form.data);
 			} else {
 				console.log('Form is invalid!');
+				console.log(form.data);
+				console.log(form);
 			}
 		}
 	});
+
 </script>
 <h1>Kullanıcı Ekleme</h1>
-<form method="POST" use:enhance>
-    {#if $message}<p>{$message}</p>{/if}
-	<label>
-		Name<br />
-		<input
-			aria-invalid={$errors.name ? 'true' : undefined}
-			bind:value={$form.name}
-			{...$constraints.name}
-		/>
-	</label>
-	{#if $errors.name}<span class="invalid">{$errors.name}</span>{/if}
+<Form.Root method="POST" {form} schema={_userSchema} let:config>
+  <Form.Field {config} name="name">
+    <Form.Item>
+      <Form.Label>Name</Form.Label>  
+      <Form.Input />
+      <Form.Description>This is your public display name.</Form.Description>
+      <Form.Validation />
+    </Form.Item>
+  </Form.Field>
 
-	<label>
-		E-mail<br />
-		<input
-			type="email"
-			aria-invalid={$errors.email ? 'true' : undefined}
-			bind:value={$form.email}
-			{...$constraints.email}
-		/>
-	</label>
-	{#if $errors.email}<span class="invalid">{$errors.email}</span>{/if}
+  <Form.Field {config} name="email">
+    <Form.Item>
+      <Form.Label>Email</Form.Label>
+      <Form.Input />
+      <Form.Description>This is your email</Form.Description>
+      <Form.Validation />
+    </Form.Item>
+  </Form.Field>
 
-	<button>Submit</button>
-</form>
-
-<style>
-	.invalid {
-		color: red;
-	}
-</style>
+  <Form.Button>Submit</Form.Button>
+</Form.Root>
