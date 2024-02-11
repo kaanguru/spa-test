@@ -2,7 +2,7 @@ import { z } from 'zod';
 import Dexie, { type Table } from 'dexie';
 
 export const _userSchema = z.object({
-	name: z.string().min(2, { message: 'BİRAZ DAHA UZUN YAP' }),
+	name: z.string().min(2, { message: 'need longer name' }),
 	email: z.string().email().optional()
 });
 export interface User {
@@ -10,10 +10,10 @@ export interface User {
 	name: string;
 	email?: string | null;
 }
-export class LockITDatabase extends Dexie {
+export class AppDatabase extends Dexie {
 	users!: Table<User>;
 	constructor() {
-		super('LockITDatabase');
+		super('AppDatabase');
 		this.version(1).stores({
 			users: '++id, name , &email'
 		});
@@ -21,4 +21,4 @@ export class LockITDatabase extends Dexie {
 	}
 }
 
-export const db = new LockITDatabase();
+export const db = new AppDatabase();

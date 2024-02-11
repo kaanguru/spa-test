@@ -39,35 +39,32 @@
 	}
 </script>
 
-<h1>Kullanıcı Ekleme</h1>
-<form method="POST" use:enhance>
-	{#if $message}<p>{$message}</p>{/if}
-	<label>
-		Name<br />
-		<input
-			aria-invalid={$errors.name ? 'true' : undefined}
-			bind:value={$form.name}
-			{...$constraints.name}
-		/>
-	</label>
-	{#if $errors.name}<span class="invalid">{$errors.name}</span>{/if}
+<div class="container">
+	<h1>Kullanıcı Ekleme</h1>
+	<form method="POST" use:enhance>
+		{#if $message}<p>{$message}</p>{/if}
+		<p>
+			<label>
+				Name<br />
+				<input
+					aria-invalid={$errors.name ? 'true' : undefined}
+					bind:value={$form.name}
+					{...$constraints.name}
+				/>
+			</label>
+			{#if $errors.name}<span>{$errors.name}</span>{/if}
 
-	<label>
-		E-mail<br />
-		<input
-			type="email"
-			aria-invalid={$errors.email ? 'true' : undefined}
-			bind:value={$form.email}
-			{...$constraints.email}
-		/>
-	</label>
-	{#if $errors.email}<span class="invalid">{$errors.email}</span>{/if}
-
-	<button>Submit</button>
-</form>
-
-<style>
-	.invalid {
-		color: red;
-	}
-</style>
+			<label>
+				E-mail<br />
+				<input
+					type="email"
+					aria-invalid={$errors.email ? 'true' : undefined}
+					bind:value={$form.email}
+					{...$constraints.email}
+				/>
+			</label>
+			{#if $errors.email}<span>{$errors.email}</span>{/if}
+		</p>
+		<button>Submit</button>
+	</form>
+</div>
