@@ -3,22 +3,25 @@
 	import { _userSchema, db } from '$lib/db';
 	import type { User } from '$lib/db';
 
-	const { form, errors, constraints, enhance, message ,reset} = superForm(
+	const { form, errors, constraints, enhance, message, reset } = superForm(
 		superValidateSync(_userSchema),
 		{
 			SPA: true,
 			validators: _userSchema,
 			onUpdate({ form }) {
 				if (form.valid) {
-					addUser(form.data).then((id) => {
-						if (id) {
-							reset();
-							console.log('user id:', id);
-						}
-					});
-					setMessage(form, 'Valid data !');
+					setMessage(form, 'user added!');
+					addUser(form.data)
+						.then((id) => {
+							console.log('ℹ  id:', id);
+						})
+						.then(() => {
+							setTimeout(() => {
+								reset();
+							}, 500);
+						});
 				} else {
-					console.log('Form is invalid!');
+					setMessage(form, 'Form is invalid!');
 				}
 			}
 		}
