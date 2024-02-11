@@ -1,7 +1,6 @@
 <script lang="ts">
 	import { setMessage, superForm, superValidateSync } from 'sveltekit-superforms/client';
-	import { _userSchema, db } from '$lib/db';
-	import type { User } from '$lib/db';
+	import { _userSchema, addUser } from '$lib/db';
 
 	const { form, errors, constraints, enhance, message, reset } = superForm(
 		superValidateSync(_userSchema),
@@ -26,17 +25,7 @@
 			}
 		}
 	);
-	async function addUser(d: User): Promise<number | void> {
-		try {
-			const id: number = await db.users.add({
-				name: d.name,
-				email: d.email
-			});
-			return id;
-		} catch (error) {
-			console.log(error);
-		}
-	}
+
 </script>
 
 <div class="container">

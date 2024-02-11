@@ -2,7 +2,7 @@ import { z } from 'zod';
 import Dexie, { type Table } from 'dexie';
 
 export const _userSchema = z.object({
-	name: z.string().min(2, { message: 'need longer name' }),
+	name: z.string().min(2, { message: 'needs longer name' }),
 	email: z.string().email().optional()
 });
 export interface User {
@@ -20,5 +20,15 @@ export class AppDatabase extends Dexie {
 		this.users = this.table('users');
 	}
 }
-
+export async function addUser(d: User): Promise<number | void> {
+  try {
+    const id: number = await db.users.add({
+      name: d.name,
+      email: d.email
+    });
+    return id;
+  } catch (error) {
+    console.log(error);
+  }
+}
 export const db = new AppDatabase();
