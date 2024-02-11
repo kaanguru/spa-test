@@ -1,17 +1,15 @@
 <script lang="ts">
 	import { setMessage, superForm, superValidateSync } from 'sveltekit-superforms/client';
 	import { _userSchema, addUser } from '$lib/db';
-	const handleOnUpdate = ({ form }) => {
-		if (!form.valid) {
-			setMessage(form, 'Form is invalid!');
-		} else {
-			setMessage(form, 'user added!');
-			addUser(form.data).then(() => {
-				setTimeout(() => {
-					reset();
-				}, 500);
-			});
-			reset();
+	const handleOnUpdate = async ({ form }) => {
+		try {
+			const id = await addUser(form.data);
+			setMessage(form, `User: ${form.data.name} has been added! with id: ${id}`);
+			setTimeout(() => {
+				reset({ keepMessage: true });
+			}, 600);
+		} catch (error) {
+			console.error(error);
 		}
 	};
 	const { form, errors, constraints, enhance, message, reset } = superForm(
