@@ -4,6 +4,11 @@ settings:
   autoInstallPeers: true
   excludeLinksFromLockfile: false
 
+dependencies:
+  dexie:
+    specifier: 4.0.1-beta.9
+    version: 4.0.1-beta.9
+
 devDependencies:
   '@sveltejs/adapter-auto':
     specifier: ^3.1.1
@@ -956,6 +961,10 @@ packages:
   /devalue@4.3.2:
     resolution: {integrity: sha512-KqFl6pOgOW+Y6wJgu80rHpo2/3H07vr8ntR9rkkFIRETewbf5GaYYcakYfiKz89K+sLsuPkQIZaXDMjUObZwWg==}
     dev: true
+
+  /dexie@4.0.1-beta.9:
+    resolution: {integrity: sha512-/m2G39sxv6NiL1OqwZN1YsE7sLUx3C9V8wnHLhmgT3phfTMz8LbWQ8b21D9cy/IhvyLkcVwisuoRiPVh60prIw==}
+    dev: false
 
   /dir-glob@3.0.1:
     resolution: {integrity: sha512-WkrWp9GR4KXfKGYzOLmTuGVi1UWFfws377n9cc55/tb6DuqyF6pcQ5AbiHEshaDpY9v6oaSr2XCDidGmMwdzIA==}

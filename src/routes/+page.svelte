@@ -1,24 +1,47 @@
 <script lang="ts">
 	import { setMessage, superForm, superValidateSync } from 'sveltekit-superforms/client';
-	import { _userSchema } from '$lib/db';
+	import { _userSchema, db } from '$lib/db';
+	import type { User } from '$lib/db';
 
-	const { form, errors, constraints, enhance , message} = superForm(superValidateSync(_userSchema), {
-		SPA: true,
-		validators: _userSchema,
-		onUpdate({ form }) {
-			if (form.valid) {
-				console.log('Form is valid!');
-                setMessage(form, 'Valid data!');
-				console.log(form.data);
-			} else {
-				console.log('Form is invalid!');
+	const { form, errors, constraints, enhance, message, reset } = superForm(
+		superValidateSync(_userSchema),
+		{
+			SPA: true,
+			validators: _userSchema,
+			onUpdate({ form }) {
+				if (form.valid) {
+					setMessage(form, 'user added!');
+					addUser(form.data)
+						.then((id) => {
+							console.log('ℹ  id:', id);
+						})
+						.then(() => {
+							setTimeout(() => {
+								reset();
+							}, 500);
+						});
+				} else {
+					setMessage(form, 'Form is invalid!');
+				}
 			}
 		}
-	});
+	);
+	async function addUser(d: User): Promise<number | void> {
+		try {
+			const id: number = await db.users.add({
+				name: d.name,
+				email: d.email
+			});
+			return id;
+		} catch (error) {
+			console.log(error);
+		}
+	}
 </script>
+
 <h1>Kullanıcı Ekleme</h1>
 <form method="POST" use:enhance>
-    {#if $message}<p>{$message}</p>{/if}
+	{#if $message}<p>{$message}</p>{/if}
 	<label>
 		Name<br />
 		<input
