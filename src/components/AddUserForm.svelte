@@ -1,6 +1,8 @@
 <script lang="ts">
-	import { setMessage, superForm, superValidateSync } from 'sveltekit-superforms/client';
+	import { setMessage, superForm, defaults } from 'sveltekit-superforms/client';
 	import { _userSchema, addUser } from '$lib/db';
+	import { zod } from 'sveltekit-superforms/adapters'
+	// @ts-ignore
 	const handleOnUpdate = async ({ form }) => {
 		try {
 			const id = await addUser(form.data);
@@ -13,10 +15,10 @@
 		}
 	};
 	const { form, errors, constraints, enhance, message, reset } = superForm(
-		superValidateSync(_userSchema),
+		defaults(zod(_userSchema)),
 		{
 			SPA: true,
-			validators: _userSchema,
+			validators: zod(_userSchema),
 			onUpdate: handleOnUpdate
 		}
 	);
